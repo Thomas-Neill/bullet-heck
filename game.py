@@ -4,8 +4,9 @@ from pygame.locals import *
 import player
 import boss_toriel
 import boss_mario
+import boss_captain
 
-boss_cons = boss_mario.Mario
+boss_cons = boss_captain.CaptainViridian
 
 class Game:
     def __init__(self):

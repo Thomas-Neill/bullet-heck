@@ -26,6 +26,15 @@ class Player(GameObject):
     def draw_hud(self,hud):
         pygame.draw.rect(hud,(255,0,0),(0,40,90,30))
         pygame.draw.rect(hud,(0,0,255),(0,40,self.hp*30,30))
+    def safe_move(self,game,dx,dy):
+        self.move(dx,0)
+        if not self.hitbox.colliderect(game.screen_rect):
+            self.hit(game)
+            self.move(-dx,0)
+        self.move(0,dy)
+        if not self.hitbox.colliderect(game.screen_rect):
+            self.hit(game)
+            self.move(0,-dy)
     def update(self,dt,game):
         keys = pygame.key.get_pressed()
 
@@ -45,9 +54,7 @@ class Player(GameObject):
             vy *= 400/mg
         dx = vx*dt
         dy = vy*dt
-        self.move(dx,dy)
-        if not self.hitbox.colliderect(game.screen_rect):
-            self.move(-dx,-dy)
+        self.safe_move(game,dx,dy)
 
         self.gun.update(dt)
         if keys[K_w]:
